@@ -240,6 +240,10 @@ https://github.com/pyinstaller/pyinstaller
 
 这是项目的首个可用版本。
 
+## Development Note
+
+This project was developed with assistance from ChatGPT.
+
 ## License
 
 Copyright (c) 2026 Jekeer
