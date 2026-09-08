@@ -36,7 +36,7 @@ jobs:
 
           Invoke-WebRequest -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_infer.tar" -OutFile "temp_models/det.tar"
           Invoke-WebRequest -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_infer.tar" -OutFile "temp_models/rec.tar"
-          Invoke-WebRequest -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_ppocr_mobile_v2.0_cls_infer.tar" -OutFile "temp_models/cls.tar"
+          Invoke-WebRequest -Uri "https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar" -OutFile "temp_models/cls.tar"
 
           tar -xf temp_models/det.tar -C temp_models
           tar -xf temp_models/rec.tar -C temp_models
