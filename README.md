@@ -1,57 +1,232 @@
 # PaddleOCR Offline
 
-一个基于 PaddleOCR 的 Windows 离线 OCR 桌面应用。
+English | [简体中文](README_zh.md)
 
-本项目将 PaddleOCR、OCR 模型和 PySide6 图形界面整合为一个可以直接运行的 Windows 桌面程序，无需用户单独安装 Python、PaddlePaddle 或 PaddleOCR。
+A Windows offline OCR desktop application based on PaddleOCR.
 
-## 功能
+This project integrates PaddleOCR, local OCR models, and a PySide6 graphical interface into a ready-to-run Windows desktop application.
 
-* Windows 桌面 OCR
-* 中文 OCR
-* CPU 推理
-* 完全本地运行
-* 支持 PNG、JPG、JPEG、BMP、WEBP、TIFF
-* 支持拖拽图片
-* 支持图片预览
-* OCR 文字复制
-* OCR 结果保存为 TXT
-* 内置本地 OCR 模型
-* 无需联网即可进行 OCR 识别
+End users do not need to install Python, PaddlePaddle, or PaddleOCR separately.
 
-## 下载
+## Features
 
-请前往 GitHub Releases 下载已经打包好的 Windows 版本。
+### OCR
 
-下载：
+* Windows desktop OCR application
+* Chinese OCR
+* CPU inference
+* Fully local processing
+* Offline OCR recognition
+* Built-in local OCR models
+* No internet connection required during OCR recognition
+* Optional text direction classification
+* Optional OCR confidence information
 
-`PaddleOCR-Offline-Windows.zip`
+### Image Support
 
-解压后运行：
+Supported image formats:
 
-`PaddleOCR-Offline.exe`
+* PNG
+* JPG
+* JPEG
+* BMP
+* WEBP
+* TIFF
+* TIF
 
-## 使用方法
+### Single and Batch OCR
 
-1. 下载 `PaddleOCR-Offline-Windows.zip`
-2. 解压 ZIP 文件
-3. 运行 `PaddleOCR-Offline.exe`
-4. 点击「选择图片」，或者直接将图片拖入程序
-5. 点击「开始识别」
-6. 在右侧查看 OCR 结果
-7. 可以复制识别结果或保存为 TXT 文件
+The application supports both single-image and batch-image OCR.
 
-## 系统要求
+The batch mode is controlled through the settings window.
 
-* Windows 10 / Windows 11
-* 64 位 Windows
-* CPU 即可运行
-* 无需独立 GPU
-* 无需安装 Python
-* 无需单独安装 PaddleOCR
+* Minimum image count: 1
+* Maximum image count: 100
+* Default value: 1
 
-## 技术栈
+When the maximum image count is set to `1`, the application works in single-image mode.
 
-本项目主要使用：
+When the maximum image count is greater than `1`, batch image selection is enabled.
+
+### Image Preview
+
+The application provides:
+
+* Image preview
+* Drag and drop image loading
+* Automatic image scaling
+* Preview area that adapts to the application window
+
+### Batch Task List
+
+When batch mode is enabled, a task list is displayed on the left side of the main interface.
+
+The task list supports:
+
+* Multiple image tasks
+* Vertical scrolling
+* Horizontal scrolling
+* Viewing long file names
+* Selecting individual images
+* Switching the image preview
+
+### OCR Results
+
+The OCR result panel is displayed on the right side of the main interface.
+
+The application supports:
+
+* Viewing OCR results
+* Copying recognized text
+* Saving OCR results
+* Batch OCR result output
+
+### Export Formats
+
+The default export format can be configured in the settings window.
+
+Supported formats:
+
+* TXT
+* Markdown
+
+### Settings
+
+The application provides a unified settings window.
+
+Current settings include:
+
+#### Batch Processing
+
+* Maximum number of images that can be added at one time
+* Adjustable range: 1 to 100
+* Default value: 1
+
+#### OCR
+
+* Enable or disable direction classification
+* Enable or disable OCR confidence information
+
+#### Output
+
+* Default export format
+* TXT
+* Markdown
+
+Settings are applied after clicking `Confirm`.
+
+The user can click `Cancel` to discard changes.
+
+## Interface Layout
+
+### Single Image Mode
+
+When the maximum image count is set to `1`, the main interface displays:
+
+```text
+┌──────────────────────────────────────────────┐
+│ PaddleOCR Offline                    [⚙]   │
+│ Windows · CPU · Fully Offline OCR           │
+├──────────────────────┬───────────────────────┤
+│                      │                       │
+│    Image Preview     │      OCR Result       │
+│                      │                       │
+│  Drag an image here  │                       │
+│  or click Select     │                       │
+│                      │                       │
+├──────────────────────┴───────────────────────┤
+│ Status: Ready                                │
+│                                              │
+│ [Select Image] [Start OCR] [Copy] [Save]     │
+│                                      [Clear] │
+└──────────────────────────────────────────────┘
+```
+
+### Batch Image Mode
+
+When the maximum image count is greater than `1`, the task list is displayed.
+
+```text
+┌────────────────────────────────────────────────────┐
+│ PaddleOCR Offline                          [⚙]    │
+│ Windows · CPU · Fully Offline OCR                 │
+├──────────────┬────────────────┬────────────────────┤
+│              │                │                    │
+│  Task List   │ Image Preview  │     OCR Result     │
+│              │                │                    │
+│  image1.png  │                │                    │
+│  image2.jpg  │                │                    │
+│  image3.png  │                │                    │
+│              │                │                    │
+├──────────────┴────────────────┴────────────────────┤
+│ Status: Ready                                      │
+│                                                    │
+│ [Select Images] [Start OCR] [Copy] [Save] [Clear] │
+└────────────────────────────────────────────────────┘
+```
+
+The task list supports vertical and horizontal scrolling to avoid long lists or long file names being truncated.
+
+## Download
+
+Please download the packaged Windows version from GitHub Releases.
+
+Release package:
+
+```text
+PaddleOCR-Offline-Windows.zip
+```
+
+After extracting the ZIP file, run:
+
+```text
+PaddleOCR-Offline.exe
+```
+
+## Usage
+
+### Single Image OCR
+
+1. Download `PaddleOCR-Offline-Windows.zip`
+2. Extract the ZIP file
+3. Run `PaddleOCR-Offline.exe`
+4. Click `Select Image`, or drag an image into the application
+5. Click `Start OCR`
+6. View the OCR result
+7. Copy or save the recognized text
+
+### Batch Image OCR
+
+1. Click the `Settings` button
+2. Set the maximum number of images to a value greater than `1`
+3. Click `Confirm`
+4. Return to the main interface
+5. Click `Select Images`
+6. Select multiple images
+7. Click `Start OCR`
+8. View individual tasks and OCR results
+9. Export the OCR results when processing is complete
+
+The maximum number of images selected in one operation is limited by the value configured in Settings.
+
+The supported range is:
+
+```text
+1 - 100
+```
+
+## System Requirements
+
+* Windows 10 or Windows 11
+* 64-bit Windows
+* CPU supported
+* No dedicated GPU required
+* No Python installation required
+* No separate PaddleOCR installation required
+
+## Technology Stack
+
+This project primarily uses:
 
 * Python
 * PySide6
@@ -60,11 +235,11 @@
 * PyInstaller
 * GitHub Actions
 
-## 构建
+## Build
 
-本项目使用 GitHub Actions 在 Windows runner 上进行构建。
+The project uses GitHub Actions to build the Windows application on a Windows runner.
 
-主要构建流程：
+The main build process is:
 
 ```text
 GitHub Repository
@@ -72,20 +247,22 @@ GitHub Repository
         ▼
 GitHub Actions
         │
-        ├── 安装 Python
-        ├── 安装 PaddlePaddle
-        ├── 安装 PaddleOCR
-        ├── 下载 OCR 模型
-        ├── PyInstaller 打包
-        └── 生成 Windows ZIP
+        ├── Install Python
+        ├── Install PaddlePaddle
+        ├── Install PaddleOCR
+        ├── Download OCR models
+        ├── Install application dependencies
+        ├── Build with PyInstaller
+        ├── Copy local OCR models
+        └── Create Windows ZIP package
         │
         ▼
 PaddleOCR-Offline-Windows.zip
 ```
 
-### Python 依赖
+## Python Dependencies
 
-当前主要依赖版本：
+The project currently uses the following primary dependencies:
 
 ```text
 paddlepaddle==2.6.2
@@ -94,11 +271,15 @@ PySide6==6.7.3
 pyinstaller==6.11.1
 ```
 
-## 离线运行
+Additional dependencies may be installed automatically through PaddleOCR and related packages.
 
-本项目的目标是让最终用户在安装完成后无需访问互联网即可进行 OCR。
+## Offline Operation
 
-OCR 模型在构建阶段由 GitHub Actions 下载，并被复制到最终发行包中的：
+The goal of this project is to allow end users to perform OCR without requiring an internet connection.
+
+OCR models are downloaded during the GitHub Actions build process and copied into the final distribution package.
+
+The final application package contains local OCR models in:
 
 ```text
 models/
@@ -107,138 +288,152 @@ models/
 └── cls/
 ```
 
-程序运行时直接使用本地模型。
+The application directly loads these local models during runtime.
 
-因此，最终用户不需要再次下载 OCR 模型。
+Therefore, end users do not need to download OCR models again.
 
-## 项目许可证
+After the application package has been downloaded and extracted, OCR recognition can be performed locally without an internet connection.
 
-本项目自行编写的源代码采用：
+## Project License
+
+The original source code created specifically for this project is licensed under the:
 
 **MIT License**
 
-完整许可证内容请参见仓库根目录的 [`LICENSE`](LICENSE) 文件。
+The complete license text is available in the repository root:
 
-MIT License 仅适用于本项目作者所拥有并授权的项目代码及相关原创内容。
+[`LICENSE`](LICENSE)
 
-本项目使用了多个第三方开源组件。第三方组件不因本项目采用 MIT License 而自动变更其原有许可证。
+The MIT License applies only to the original project code and other original content owned and licensed by the project copyright holder.
 
-## 第三方组件与许可证
+This project uses multiple third-party open-source components.
+
+The licenses of third-party components are not changed by the MIT License used for this project.
+
+## Third-Party Components and Licenses
 
 ### PaddleOCR
 
-本项目使用 PaddleOCR 作为 OCR 引擎。
+This project uses PaddleOCR as its OCR engine.
 
-PaddleOCR 项目采用：
+PaddleOCR is licensed under:
 
 **Apache License 2.0**
 
-PaddleOCR 官方项目：
+Official project:
 
-https://github.com/PaddlePaddle/PaddleOCR
+[PaddleOCR GitHub repository](https://github.com/PaddlePaddle/PaddleOCR?utm_source=chatgpt.com)
 
-PaddleOCR 的许可证及版权声明适用于 PaddleOCR 本身及其相关代码。
+The PaddleOCR license and copyright notices apply to PaddleOCR itself and its related code.
 
 ### PaddlePaddle
 
-本项目使用 PaddlePaddle 作为深度学习推理框架。
+This project uses PaddlePaddle as the deep learning inference framework.
 
-PaddlePaddle 采用：
+PaddlePaddle is licensed under:
 
 **Apache License 2.0**
 
-PaddlePaddle 官方项目：
+Official project:
 
-https://github.com/PaddlePaddle/Paddle
+[PaddlePaddle GitHub repository](https://github.com/PaddlePaddle/Paddle?utm_source=chatgpt.com)
 
-PaddlePaddle 的许可证及版权声明适用于 PaddlePaddle 本身。
+The PaddlePaddle license and copyright notices apply to PaddlePaddle itself.
 
 ### PySide6 / Qt for Python
 
-本项目使用 PySide6 构建 Windows 图形界面。
+This project uses PySide6 to build the Windows graphical user interface.
 
-Qt for Python / PySide6 的开源版本涉及：
+The open-source version of Qt for Python / PySide6 involves licenses including:
 
 * GNU Lesser General Public License v3 (LGPLv3)
 * GNU General Public License v3 (GPLv3)
 
-Qt 也提供商业许可证。
+Qt also provides commercial licensing options.
 
-具体许可证以及第三方组件说明请以 Qt 官方许可证页面为准：
+For detailed licensing information, please refer to the official Qt for Python licensing documentation:
 
-https://doc.qt.io/qtforpython-6/licensing.html
+[Qt for Python licensing documentation](https://doc.qt.io/qtforpython-6/licensing.html?utm_source=chatgpt.com)
 
-如果重新分发本项目的 Windows 可执行文件，请注意其中包含的 Qt / PySide6 相关组件所适用的许可证及其相应义务。
+If you redistribute the Windows executable or other packaged distributions of this project, please review and comply with the applicable license requirements of Qt, PySide6, and related components.
 
 ### PyInstaller
 
-本项目使用 PyInstaller 将 Python 应用程序打包为 Windows 可执行程序。
+This project uses PyInstaller to package the Python application into a Windows executable.
 
-PyInstaller 及其包含的相关组件分别遵循其各自适用的开源许可证。
+PyInstaller and its related components are subject to their respective open-source licenses.
 
-项目地址：
+Official project:
 
-https://github.com/pyinstaller/pyinstaller
+[PyInstaller GitHub repository](https://github.com/pyinstaller/pyinstaller?utm_source=chatgpt.com)
 
-### OCR 模型
+### OCR Models
 
-本项目的 Windows 发布包包含通过 PaddleOCR 官方模型下载地址获取的 OCR 推理模型，包括：
+The Windows release package includes OCR inference models obtained from official PaddleOCR model distribution sources.
 
-* PP-OCRv4 中文文本检测模型
-* PP-OCRv4 中文文本识别模型
-* PP-OCR mobile 方向分类模型
+These include:
 
-这些模型不是本项目原创内容。
+* PP-OCRv4 Chinese text detection model
+* PP-OCRv4 Chinese text recognition model
+* PaddleOCR mobile text direction classification model
 
-模型及其相关文件应遵循其原始发布项目及模型提供方所适用的许可证、版权声明和其他使用条款。
+These OCR models are not original content created by this project.
 
-本项目不会将第三方 OCR 模型重新声明为本项目原创内容。
+The models and related files remain subject to the licenses, copyright notices, and terms of their original publishers and distribution sources.
 
-## 第三方许可证说明
+This project does not claim third-party OCR models as original project content.
 
-本项目是一个对多个开源组件进行集成和打包的应用程序。
+## Third-Party License Notice
 
-本项目的 MIT License：
+This project integrates and packages multiple open-source components.
 
-**不取代、不修改、不扩大第三方组件原有的许可证授权范围。**
+The MIT License used for this project:
 
-对于本项目发行包中包含的第三方软件、运行库、模型或其他材料，应分别遵守其各自适用的许可证及版权要求。
+**does not replace, modify, or expand the original license terms of third-party components.**
 
-如果你重新分发、修改或商业使用本项目，请同时检查相关第三方组件的许可证要求。
+Software libraries, runtime components, OCR models, and other third-party materials included in or used by the project remain subject to their respective licenses.
 
-## 免责声明
+If you redistribute, modify, or commercially use this project, please review the license requirements of all applicable third-party components.
 
-本软件按「现状」提供，不提供任何明示或暗示的保证。
+## Disclaimer
 
-本项目作者不保证：
+This software is provided "as is", without warranties of any kind, either express or implied.
 
-* OCR 识别结果始终准确
-* 软件始终能够正常运行
-* 软件适用于所有图片或使用场景
-* 软件不会出现错误、崩溃或其他问题
-* OCR 结果适用于医疗、法律、金融或其他高风险决策
+The project author does not guarantee that:
 
-由于 OCR 本身可能产生识别错误，用户应当根据实际使用场景对 OCR 结果进行人工核验。
+* OCR recognition results will always be accurate
+* The software will always operate correctly
+* The software will work with every image or use case
+* The software will be free from errors, crashes, or other issues
+* OCR results are suitable for medical, legal, financial, or other high-risk decisions
 
-对于因使用或无法使用本软件而产生的任何直接或间接损失，本项目作者在适用法律允许的最大范围内不承担责任。
+OCR systems may produce recognition errors.
 
-## 隐私
+Users should manually verify OCR results when accuracy is important.
 
-本项目设计目标为本地 OCR。
+To the maximum extent permitted by applicable law, the project author shall not be liable for direct or indirect losses resulting from the use of, or inability to use, this software.
 
-用户选择的图片默认直接在本地计算机上进行处理，OCR 识别过程不要求将图片上传到本项目作者提供的服务器。
+## Privacy
 
-本项目本身不提供云端 OCR 服务。
+This project is designed as a local OCR application.
 
-但是，用户使用的操作系统、网络环境或其他第三方软件可能具有独立的数据处理行为，其隐私政策不属于本项目控制范围。
+Images selected by the user are processed locally on the user's computer.
 
-## 项目状态
+The OCR recognition process does not require uploading images to a server operated by the project author.
 
-当前版本：
+This project does not provide a cloud OCR service.
 
-**v1.0.0**
+However, the user's operating system, network environment, antivirus software, or other third-party software may have independent data processing behavior.
 
-这是项目的首个可用版本。
+Such behavior is outside the control of this project.
+
+## Project Status
+
+Current version:
+
+**v1.1.0**
+
+Version 1.1.0 expands the initial single-image OCR application with batch OCR support, configurable batch image limits, a unified settings window, a scrollable task list, optional OCR settings, and TXT / Markdown export options.
 
 ## Development Note
 
@@ -250,6 +445,6 @@ Copyright (c) 2026 Jekeer
 
 This project is licensed under the MIT License.
 
-See the `LICENSE` file for details.
+See the [`LICENSE`](LICENSE) file for details.
 
 Third-party components included in or used by this project are subject to their respective licenses.
