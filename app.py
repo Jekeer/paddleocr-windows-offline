@@ -42,10 +42,9 @@ return Path(__file__).resolve().parent
 ```
 
 def get_model_paths():
-
-```
 base_path = get_base_path()
 
+```
 models_path = base_path / "models"
 
 det_model = models_path / "det"
@@ -71,9 +70,7 @@ def __init__(self, image_path):
     self.image_path = image_path
 
 def run(self):
-
     try:
-
         self.status.emit(
             "正在加载本地 OCR 模型..."
         )
@@ -89,9 +86,7 @@ def run(self):
             rec_model_dir,
             cls_model_dir,
         ):
-
             if not os.path.exists(model_dir):
-
                 raise RuntimeError(
                     f"本地 OCR 模型不存在：\n{model_dir}"
                 )
@@ -118,27 +113,20 @@ def run(self):
         lines = []
 
         if result and result[0]:
-
             for item in result[0]:
-
                 text = item[1][0]
-
                 lines.append(text)
 
         text_result = "\n".join(lines)
 
         if not text_result.strip():
-
-            text_result = (
-                "未识别到文字。"
-            )
+            text_result = "未识别到文字。"
 
         self.finished.emit(
             text_result
         )
 
     except Exception as e:
-
         self.error.emit(
             str(e)
         )
@@ -150,7 +138,6 @@ class ImagePreview(QLabel):
 fileDropped = Signal(str)
 
 def __init__(self):
-
     super().__init__()
 
     self.setAlignment(
@@ -179,13 +166,10 @@ def __init__(self):
     self.image_path = None
 
 def dragEnterEvent(self, event):
-
     if event.mimeData().hasUrls():
-
         event.acceptProposedAction()
 
 def dropEvent(self, event):
-
     urls = event.mimeData().urls()
 
     if not urls:
@@ -197,23 +181,19 @@ def dropEvent(self, event):
         self.fileDropped.emit(path)
 
 def load_image(self, image_path):
-
     self.image_path = image_path
 
     pixmap = QPixmap(image_path)
 
     if pixmap.isNull():
-
         self.setText(
             "无法加载图片"
         )
-
         return
 
     self.update_preview()
 
 def update_preview(self):
-
     if not self.image_path:
         return
 
@@ -235,9 +215,7 @@ def update_preview(self):
     )
 
 def resizeEvent(self, event):
-
     super().resizeEvent(event)
-
     self.update_preview()
 ```
 
@@ -245,7 +223,6 @@ class MainWindow(QMainWindow):
 
 ```
 def __init__(self):
-
     super().__init__()
 
     self.current_image = None
@@ -263,7 +240,6 @@ def __init__(self):
     self.init_ui()
 
 def init_ui(self):
-
     central = QWidget()
 
     self.setCentralWidget(
@@ -449,7 +425,6 @@ def init_ui(self):
     )
 
 def select_image(self):
-
     file_path, _ = (
         QFileDialog.getOpenFileName(
             self,
@@ -460,13 +435,11 @@ def select_image(self):
     )
 
     if file_path:
-
         self.load_image(
             file_path
         )
 
 def load_image(self, file_path):
-
     path = Path(
         file_path
     )
@@ -475,18 +448,14 @@ def load_image(self, file_path):
         path.suffix.lower()
         not in SUPPORTED_EXTENSIONS
     ):
-
         QMessageBox.warning(
             self,
             "不支持的文件",
             "请选择支持的图片格式。",
         )
-
         return
 
-    self.current_image = (
-        file_path
-    )
+    self.current_image = file_path
 
     self.preview.load_image(
         file_path
@@ -501,15 +470,12 @@ def load_image(self, file_path):
     )
 
 def start_ocr(self):
-
     if not self.current_image:
-
         QMessageBox.warning(
             self,
             "提示",
             "请先选择图片。",
         )
-
         return
 
     self.result_text.clear()
@@ -537,7 +503,6 @@ def start_ocr(self):
     self.worker.start()
 
 def ocr_finished(self, text):
-
     self.result_text.setPlainText(
         text
     )
@@ -551,7 +516,6 @@ def ocr_finished(self, text):
     )
 
 def ocr_error(self, message):
-
     self.status_label.setText(
         "识别失败"
     )
@@ -567,20 +531,17 @@ def ocr_error(self, message):
     )
 
 def copy_text(self):
-
     text = (
         self.result_text
         .toPlainText()
     )
 
     if not text.strip():
-
         QMessageBox.information(
             self,
             "提示",
             "没有可复制的文字。",
         )
-
         return
 
     clipboard = (
@@ -596,20 +557,17 @@ def copy_text(self):
     )
 
 def save_text(self):
-
     text = (
         self.result_text
         .toPlainText()
     )
 
     if not text.strip():
-
         QMessageBox.information(
             self,
             "提示",
             "没有可保存的文字。",
         )
-
         return
 
     file_path, _ = (
@@ -625,13 +583,11 @@ def save_text(self):
         return
 
     try:
-
         with open(
             file_path,
             "w",
             encoding="utf-8",
         ) as f:
-
             f.write(
                 text
             )
@@ -641,7 +597,6 @@ def save_text(self):
         )
 
     except Exception as e:
-
         QMessageBox.critical(
             self,
             "保存失败",
@@ -649,7 +604,6 @@ def save_text(self):
         )
 
 def clear_all(self):
-
     self.current_image = None
 
     self.preview.clear()
@@ -672,16 +626,13 @@ def clear_all(self):
     )
 
 def set_busy(self, busy):
-
     self.select_button.setEnabled(
         not busy
     )
 
     self.ocr_button.setEnabled(
-        (
-            not busy
-            and self.current_image is not None
-        )
+        not busy
+        and self.current_image is not None
     )
 
     self.copy_button.setEnabled(
@@ -701,14 +652,12 @@ def set_busy(self, busy):
     )
 
     if busy:
-
         self.progress.setRange(
             0,
             0,
         )
 
     else:
-
         self.progress.setRange(
             0,
             1,
@@ -720,12 +669,11 @@ def set_busy(self, busy):
 ```
 
 def main():
-
-```
 QApplication.setApplicationName(
-    APP_NAME
+APP_NAME
 )
 
+```
 app = QApplication(
     sys.argv
 )
@@ -740,7 +688,4 @@ sys.exit(
 ```
 
 if **name** == "**main**":
-
-```
 main()
-```
