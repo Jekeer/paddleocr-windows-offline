@@ -14,7 +14,6 @@ a = Analysis(
 ["app.py"],
 pathex=[],
 
-```
 binaries=(
     paddleocr_binaries
     + paddle_binaries
@@ -37,13 +36,9 @@ hiddenimports=(
 ),
 
 hookspath=[],
-
 hooksconfig={},
-
 runtime_hooks=[],
-
 excludes=[],
-
 noarchive=False,
 ```
 
@@ -55,28 +50,19 @@ a.pure
 
 exe = EXE(
 pyz,
-
-```
 a.scripts,
-
 a.binaries,
-
 a.zipfiles,
-
 a.datas,
-
 [],
 
+```
 name="PaddleOCR-Offline",
 
 debug=False,
-
 bootloader_ignore_signals=False,
-
 strip=False,
-
 upx=False,
-
 console=False,
 ```
 
@@ -84,16 +70,12 @@ console=False,
 
 coll = COLLECT(
 exe,
-
-```
 a.binaries,
-
 a.zipfiles,
-
 a.datas,
 
+```
 strip=False,
-
 upx=False,
 
 name="PaddleOCR-Offline",
