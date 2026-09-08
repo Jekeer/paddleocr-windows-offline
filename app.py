@@ -34,8 +34,8 @@ SUPPORTED_EXTENSIONS = {
 }
 
 def get_base_path():
-if getattr(sys, "frozen", False):
-return Path(sys.executable).parent
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).parent
 
 ```
 return Path(__file__).resolve().parent
