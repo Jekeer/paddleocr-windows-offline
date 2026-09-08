@@ -1,142 +1,66 @@
 name: Build PaddleOCR Offline Windows
 
 on:
-
 workflow_dispatch:
-
 push:
 branches:
 - main
 
 jobs:
-
 build:
-
-```
 runs-on: windows-latest
 
-
+```
 steps:
-
-
   - name: Checkout source
     uses: actions/checkout@v4
-
 
   - name: Setup Python
     uses: actions/setup-python@v5
     with:
       python-version: "3.10"
 
-
   - name: Upgrade pip
-    run: |
-      python -m pip install --upgrade pip
-
+    run: python -m pip install --upgrade pip
 
   - name: Install dependencies
-    run: |
-      pip install -r requirements.txt
-
+    run: pip install -r requirements.txt
 
   - name: Verify PaddleOCR
-    run: |
-      python -c "from paddleocr import PaddleOCR; print('PaddleOCR OK')"
-
+    run: python -c "from paddleocr import PaddleOCR; print('PaddleOCR OK')"
 
   - name: Download OCR models
     shell: powershell
     run: |
+      New-Item -ItemType Directory -Force -Path models | Out-Null
+      New-Item -ItemType Directory -Force -Path temp_models | Out-Null
 
-      New-Item `
-        -ItemType Directory `
-        -Force `
-        -Path models `
-        | Out-Null
+      Invoke-WebRequest -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_infer.tar" -OutFile "temp_models/det.tar"
+      Invoke-WebRequest -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_infer.tar" -OutFile "temp_models/rec.tar"
+      Invoke-WebRequest -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_ppocr_mobile_v2.0_cls_infer.tar" -OutFile "temp_models/cls.tar"
 
+      tar -xf temp_models/det.tar -C temp_models
+      tar -xf temp_models/rec.tar -C temp_models
+      tar -xf temp_models/cls.tar -C temp_models
 
-      New-Item `
-        -ItemType Directory `
-        -Force `
-        -Path temp_models `
-        | Out-Null
-
-
-      Invoke-WebRequest `
-        -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_det_infer.tar" `
-        -OutFile "temp_models/det.tar"
-
-
-      Invoke-WebRequest `
-        -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv4/chinese/ch_PP-OCRv4_rec_infer.tar" `
-        -OutFile "temp_models/rec.tar"
-
-
-      Invoke-WebRequest `
-        -Uri "https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_ppocr_mobile_v2.0_cls_infer.tar" `
-        -OutFile "temp_models/cls.tar"
-
-
-      tar -xf temp_models/det.tar `
-        -C temp_models
-
-
-      tar -xf temp_models/rec.tar `
-        -C temp_models
-
-
-      tar -xf temp_models/cls.tar `
-        -C temp_models
-
-
-      Move-Item `
-        "temp_models/ch_PP-OCRv4_det_infer" `
-        "models/det"
-
-
-      Move-Item `
-        "temp_models/ch_PP-OCRv4_rec_infer" `
-        "models/rec"
-
-
-      Move-Item `
-        "temp_models/ch_ppocr_mobile_v2.0_cls_infer" `
-        "models/cls"
-
+      Move-Item "temp_models/ch_PP-OCRv4_det_infer" "models/det"
+      Move-Item "temp_models/ch_PP-OCRv4_rec_infer" "models/rec"
+      Move-Item "temp_models/ch_ppocr_mobile_v2.0_cls_infer" "models/cls"
 
   - name: Verify models
     shell: powershell
-    run: |
-
-      Get-ChildItem `
-        -Recurse `
-        models
-
+    run: Get-ChildItem -Recurse models
 
   - name: Build application
-    run: |
-      pyinstaller build.spec --noconfirm --clean
-
+    run: pyinstaller build.spec --noconfirm --clean
 
   - name: Copy models to distribution
     shell: powershell
-    run: |
-
-      Copy-Item `
-        -Recurse `
-        -Force `
-        models `
-        dist\PaddleOCR-Offline\models
-
+    run: Copy-Item -Recurse -Force models dist\PaddleOCR-Offline\models
 
   - name: Create ZIP
     shell: powershell
-    run: |
-
-      Compress-Archive `
-        -Path dist\PaddleOCR-Offline `
-        -DestinationPath PaddleOCR-Offline-Windows.zip
-
+    run: Compress-Archive -Path dist\PaddleOCR-Offline -DestinationPath PaddleOCR-Offline-Windows.zip
 
   - name: Upload artifact
     uses: actions/upload-artifact@v4
