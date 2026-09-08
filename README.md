@@ -2,4 +2,4 @@
 Offline PaddleOCR application for Windows CPU
 
 # ATTENTION!!!
-ALL code made by AI.
+ALL code made by ChatGPT
